@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.10.0/p5.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <meta charset="utf-8" />
+    <script src="script.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mate:ital@0;1&family=Roboto+Slab:wght@100..900&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+<h1>Depression and Anxiety Around the World</h1>
+<div class="description">
+    <p>
+    In a survey conducted in 2020 by Welcome Global Monitor, respondents were asked: 'Have you ever been so anxious or depressed that you could not continue your regular daily activities as you normally would for two weeks or longer?' 
+    <br><br>Each star in this visualisation represents one of the top 40 countries according to the share of the sample who answered yes to the question above.
+    Also shown are the population size and the share of people who reported feeling either ‘very comfortable’ or ‘somewhat comfortable’ speaking about these issues with someone they know. </p>
+</div>
+
+
+    <div class="legend">
+        <div class="legend1">
+            <h2>Legend</h2>
+            <div class="legend1-1">
+                <div class="legend1-1-1" id="legend1">
+                     <script>
+                            new p5(drawLegend, document.currentScript.parentElement);
+                     </script>
+                </div>
+                <div class="legend1-1-2">
+
+                    <p class="legend-text">Circle diameter = Population in 2020*</p>
+                    <p class="legend-text">Brightness = Share who reported
+                        feeling “very comfortable” or “somewhat comfortable”
+                        talking about their depression or anxiety in 2020**</p>
+                    <p class="legend-text">Height = Share who report
+                        lifetime anxiety or depression in 2020</p>
+                </div>
+            </div>
+
+        </div>
+        <div class="legend2">
+            <p class="legend-text">*Population in 2020</p>
+            <script>
+                new p5(drawLegendPopulation, document.currentScript.parentElement);
+         </script>
+        </div>
+        <div class="legend2">
+            <p class="legend-text">**Perceived comfort</p>
+            <script>
+                new p5(drawLegendComfort, document.currentScript.parentElement);
+         </script>
+        </div>
+        <div class="legend3">
+            <h2>Sources</h2>
+            <p class="legend-text">
+                http://ourworldindata.org<br>
+                http://data.worldbank.org
+            </p>
+        </div>
+    </div>
+
+
+
+</body>
+
+</html>
