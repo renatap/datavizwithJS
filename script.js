@@ -1,5 +1,6 @@
 //make function that displays numbers when hovering over each circle
-//try to fix colors of legend
+//make responsive for mobile: max height of container, and legend items stack
+
 
 const datasets = [];
 let drawCheck = false;
@@ -9,7 +10,7 @@ function graph(p) {
         p.createCanvas(p.windowWidth, p.windowHeight);
         p.background(245, 244, 239);
     };
-    
+
     p.draw = async function () {
         const drawing = await getData();
         let rmargin = 50;
@@ -26,42 +27,43 @@ function graph(p) {
 
         if (drawCheck == false) {
 
-        // scale
-        p.line(rmargin, tmargin - 15, 50, p.height);
-        for (let i = 0; i <= 10; i++) {
-            let ticks = ((p.height - tmargin - bmargin) / 50 * i);
-            p.line(rmargin, (ticks * 5) + tmargin, rmargin - 5, (ticks * 5) + tmargin);
-            p.text(i * 5, rmargin - 20, 4 + p.height - bmargin - ticks * 5)
-        }
-        p.textFont('Lato', 11);
-        p.textStyle(p.ITALIC);
-        p.strokeWeight(0);
-        p.text('Share who reported\nlifetime anxiety\nor depression in 2020\n%', rmargin + 10, tmargin);
-        p.strokeWeight(0.2);
-
-        //bubbles and data
-            for (let i = 0; i < datasets.length; i++) {
-            let y = p.map(datasets[i].y, 0, 50, p.height - tmargin, 0) + tmargin;
-            let x = ((p.windowWidth - 100) / 40 * datasets[i].x) + rmargin;
-            p.noStroke();
-            p.fill(0, 20, 197, Math.round(datasets[i].alpha)*2);
-            p.circle(x, y, datasets[i].r);
-            p.fill(0);
-            p.stroke(0);
-            p.drawingContext.setLineDash([1.5]);
-            p.line(x, y, x, p.height - bmargin)
-            p.drawingContext.setLineDash([]);
-
-            p.push();
-            p.translate(x, p.height - bmargin)
-            p.rotate(p.HALF_PI * 3);
+            // scale
+            p.line(rmargin, tmargin - 15, 50, p.height);
+            for (let i = 0; i <= 10; i++) {
+                let ticks = ((p.height - tmargin - bmargin) / 50 * i);
+                p.line(rmargin, (ticks * 5) + tmargin, rmargin - 5, (ticks * 5) + tmargin);
+                p.text(i * 5, rmargin - 20, 4 + p.height - bmargin - ticks * 5)
+            }
+            p.textFont('Lato', 11);
+            p.textStyle(p.ITALIC);
             p.strokeWeight(0);
-            p.text(datasets[i].c, 0, 0)
-            p.pop();
+            p.text('Share who reported\nlifetime anxiety\nor depression in 2020\n%', rmargin + 10, tmargin);
+            p.strokeWeight(0.2);
+
+            //bubbles and data
+            for (let i = 0; i < datasets.length; i++) {
+                let y = p.map(datasets[i].y, 0, 50, p.height - tmargin, 0) + tmargin;
+                let x = ((p.windowWidth - 100) / 40 * datasets[i].x) + rmargin;
+                p.noStroke();
+                p.fill(0, 20, 197, Math.round(datasets[i].alpha) * 2);
+                p.circle(x, y, datasets[i].r);
+                p.fill(0);
+                p.stroke(0);
+                p.drawingContext.setLineDash([1.5]);
+                p.line(x, y, x, p.height - bmargin)
+                p.drawingContext.setLineDash([]);
+
+                p.push();
+                p.translate(x, p.height - bmargin)
+                p.rotate(p.HALF_PI * 3);
+                p.strokeWeight(0);
+                p.text(datasets[i].c, 0, 0)
+                p.pop();
+
+            };
+            drawCheck = true;
         };
-        drawCheck = true;
-    };
-        
+
         p.noLoop();
     }
 
@@ -85,10 +87,10 @@ async function getData() {
         const long = columns[5];
         const order = columns[6];
         const comfort = columns[7];
-        if (datasets.length < 40){
+        if (datasets.length < 40) {
             datasets.push({ x: order, y: share, r: pop, c: country, alpha: comfort });
         };
-        
+
     });
 
     return { datasets }
@@ -160,11 +162,11 @@ function drawLegendComfort(p) {
         let posY3 = 120;
 
         p.noStroke();
-        p.fill(0, 20, 197, 63*2);
+        p.fill(0, 20, 197, 63 * 2);
         p.circle(posX, posY1, 25);
-        p.fill(0, 20, 197, 45*2);
+        p.fill(0, 20, 197, 45 * 2);
         p.circle(posX, posY2, 25);
-        p.fill(0, 20, 197, 30*2);
+        p.fill(0, 20, 197, 30 * 2);
         p.circle(posX, posY3, 25);
         p.fill(0);
         p.textFont('Mate', 12);
@@ -178,3 +180,11 @@ function drawLegendComfort(p) {
     };
 
 };
+
+// function hover() {
+//     let distance = dist(x, y, mouseX, mouseY);
+//     if (distance < r / 2) {
+//         console.log("bateu");
+//     }
+
+// }
