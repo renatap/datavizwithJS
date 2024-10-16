@@ -2,27 +2,29 @@
 //try to fix colors of legend
 
 const datasets = [];
+let drawCheck = false;
 
 function graph(p) {
     p.setup = function () {
         p.createCanvas(p.windowWidth, p.windowHeight);
         p.background(245, 244, 239);
     };
+    
     p.draw = async function () {
         const drawing = await getData();
         let rmargin = 50;
         let tmargin = 50;
         let bmargin = 50;
 
-        p.noLoop();
-
         p.stroke(0);
-        p.strokeWeight(0.1);
+        p.strokeWeight(0.2);
 
 
-        p.textFont('Lato', 12);   
-        p.fill(0, 80);
+        p.textFont('Lato', 12);
+        p.fill(0);
         p.stroke(0);
+
+        if (drawCheck == false) {
 
         // scale
         p.line(rmargin, tmargin - 15, 50, p.height);
@@ -33,16 +35,18 @@ function graph(p) {
         }
         p.textFont('Lato', 11);
         p.textStyle(p.ITALIC);
+        p.strokeWeight(0);
         p.text('Share who reported\nlifetime anxiety\nor depression in 2020\n%', rmargin + 10, tmargin);
+        p.strokeWeight(0.2);
 
-        // bubbles and data
-        for (let i = 0; i < datasets.length; i++) {
+        //bubbles and data
+            for (let i = 0; i < datasets.length; i++) {
             let y = p.map(datasets[i].y, 0, 50, p.height - tmargin, 0) + tmargin;
             let x = ((p.windowWidth - 100) / 40 * datasets[i].x) + rmargin;
             p.noStroke();
-            p.fill(0, 20, 197, datasets[i].alpha / 1.5);
+            p.fill(0, 20, 197, Math.round(datasets[i].alpha)*2);
             p.circle(x, y, datasets[i].r);
-            p.fill(0, 80);
+            p.fill(0);
             p.stroke(0);
             p.drawingContext.setLineDash([1.5]);
             p.line(x, y, x, p.height - bmargin)
@@ -51,12 +55,17 @@ function graph(p) {
             p.push();
             p.translate(x, p.height - bmargin)
             p.rotate(p.HALF_PI * 3);
+            p.strokeWeight(0);
             p.text(datasets[i].c, 0, 0)
             p.pop();
-        }
+        };
+        drawCheck = true;
+    };
+        
+        p.noLoop();
     }
 
-    
+
 }
 
 new p5(graph);
@@ -65,10 +74,9 @@ new p5(graph);
 async function getData() {
     const response = await fetch('mentalhealthdataset.csv');
     const data = await response.text();
-    const table = data.split('\n').slice(1);
+    const table = data.split('\r\n').slice(1);
     table.forEach(row => {
         const columns = row.split(',');
-
         const country = columns[0];
         const transp1 = columns[1];
         const transp2 = columns[2];
@@ -77,9 +85,12 @@ async function getData() {
         const long = columns[5];
         const order = columns[6];
         const comfort = columns[7];
-        datasets.push({ x: order, y: share, r: pop, c: country, alpha: comfort })
+        if (datasets.length < 40){
+            datasets.push({ x: order, y: share, r: pop, c: country, alpha: comfort });
+        };
+        
+    });
 
-    })
     return { datasets }
 }
 
@@ -149,11 +160,11 @@ function drawLegendComfort(p) {
         let posY3 = 120;
 
         p.noStroke();
-        p.fill(0, 20, 197, 63);
+        p.fill(0, 20, 197, 63*2);
         p.circle(posX, posY1, 25);
-        p.fill(0, 20, 197, 45);
+        p.fill(0, 20, 197, 45*2);
         p.circle(posX, posY2, 25);
-        p.fill(0, 20, 197, 30);
+        p.fill(0, 20, 197, 30*2);
         p.circle(posX, posY3, 25);
         p.fill(0);
         p.textFont('Mate', 12);
